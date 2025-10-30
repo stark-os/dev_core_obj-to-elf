@@ -76,6 +76,7 @@ def main(args):
 	outputPath = ""
 	debugMode  = False
 	PICEnabled = False
+	tgtSDL     = False
 
 	#filter opts & args
 	args              = args[1:]
@@ -94,10 +95,11 @@ def main(args):
 				print()
 				print("Options :")
 				print("  -d, --debug        : Enable debug traces.")
-				print("  -p, --pic          : Compile as \"Position Independant Code\".")
 				print("  -o, --output <path>: Specify output file path.")
 				print("                       Default is basename of first OBJ file given, at current location,")
 				print("                       and replacing extension by \".elf\".")
+				print("  -p, --pic          : Compile as \"Position Independant Code\".")
+				print("  -s, --sdl          : Compile as SDL lib, runnable instead.")
 				print()
 				print("Examples:")
 				print("  obj-to-elf --debug my/dir/myFile.obj")
@@ -118,11 +120,11 @@ def main(args):
 				#clean arg list
 				args_without_opts.remove(args[a])
 
-			#option: pic
-			elif args[a] in ("-p", "--pic"):
+			#option: shared
+			elif args[a] in ("-s", "--sdl"):
 
 				#action
-				PICEnabled = True
+				tgtSDL = True
 
 				#clean arg list
 				args_without_opts.remove(args[a])
@@ -141,6 +143,15 @@ def main(args):
 				#clean arg list
 				args_without_opts.remove(args[a])
 				args_without_opts.remove(args[a+1])
+
+			#option: pic
+			elif args[a] in ("-p", "--pic"):
+
+				#action
+				PICEnabled = True
+
+				#clean arg list
+				args_without_opts.remove(args[a])
 
 			#undefined option
 			else:
@@ -192,6 +203,10 @@ def main(args):
 	#PIC
 	if PICEnabled:
 		cmd.append("-fPIC")
+
+	#tgt SDL
+	if tgtSDL:
+		cmd.append("-shared")
 
 	#SDLs
 	for s in sdls:
