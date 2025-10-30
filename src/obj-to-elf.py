@@ -203,7 +203,7 @@ def main(args):
 	writeFile(".obj-to-elf/tmp.c", srcSum)
 
 	#output path dir
-	outputPath_dir = os.path.dirname(outputPath)
+	outputPath_dir = os.path.dirname(os.path.abspath(outputPath))
 	if not os.path.isdir(outputPath_dir):
 		os.makedirs(outputPath_dir)
 
