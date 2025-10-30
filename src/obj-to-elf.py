@@ -120,7 +120,7 @@ def main(args):
 				#clean arg list
 				args_without_opts.remove(args[a])
 
-			#option: shared
+			#option: sdl
 			elif args[a] in ("-s", "--sdl"):
 
 				#action
