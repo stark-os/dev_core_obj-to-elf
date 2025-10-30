@@ -130,7 +130,7 @@ def main(args):
 			#option: output
 			elif args[a] in ("-o", "--output"):
 				if len(args) < a+2:
-					err("n-to-obj: Missing <path> to option '-o/--output'.")
+					err("Missing <path> to option '-o/--output'.")
 
 				#action
 				outputPath = args[a+1]
