@@ -212,7 +212,7 @@ def main(args):
 	for s in sdls:
 		rawName = os.path.basename(s).split('.')[0]
 		cmd.append("-l" + rawName)                  #remove ALL extensions
-		os.system("ln -s " + s + " " + CWD + "/.obj-to-elf/lib" + rawname + ".so")
+		os.system("ln -s " + s + " " + CWD + "/.obj-to-elf/lib" + rawName + ".so")
 
 	#src
 	writeFile(".obj-to-elf/tmp.c", srcSum)
