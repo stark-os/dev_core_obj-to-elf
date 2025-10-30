@@ -32,13 +32,13 @@ TMP = OUT  + "/tmp"
 
 #io
 def readFile(path):
-	f = open(path, 'r')
+	f = open(path, 'rb')
 	res = f.read()
 	f.close()
 	return res
 
 def writeFile(path, data):
-	f = open(path, 'w')
+	f = open(path, 'wb')
 	f.write(data)
 	f.close()
 
@@ -162,7 +162,7 @@ def main(args):
 		err("Missing OBJ source input file(s).")
 
 	#gather them as one big file
-	srcSum       = ""
+	srcSum       = b''
 	srcPaths     = args_without_opts[0].split(',')
 	firstSrcName = '.'.join(os.path.basename(srcPaths[0]).split('.')[:-1])
 	for p in srcPaths:
@@ -170,7 +170,7 @@ def main(args):
 			err("Unable to find OBJ source input file \"" + p + "\".")
 		try:
 			srcSum += readFile(p)
-		except:
+		except ImportError:
 			err("Unable to read from OBJ source input file \"" + p + "\".")
 
 	#args: sdl fp (optional)
@@ -194,7 +194,7 @@ def main(args):
 		outputPath = firstSrcName + ".elf"
 
 	#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< C compiler used as temporary alternative
-	cmd = ["gcc", "-nostdlib", "-o", outputPath, CWD + "/.obj-to-elf/tmp.c", "-L" + CWD + "/.obj-to-elf/"]
+	cmd = ["gcc", "-nostdlib", "-o", outputPath, CWD + "/.obj-to-elf/tmp.o", "-L" + CWD + "/.obj-to-elf/"]
 
 	#tmp dir
 	os.system("rm -rf .obj-to-elf/")
@@ -215,7 +215,7 @@ def main(args):
 		os.system("ln -s " + s + " " + CWD + "/.obj-to-elf/lib" + rawName + ".so")
 
 	#src
-	writeFile(".obj-to-elf/tmp.c", srcSum)
+	writeFile(".obj-to-elf/tmp.o", srcSum)
 
 	#output path dir
 	outputPath_dir = os.path.dirname(os.path.abspath(outputPath))
